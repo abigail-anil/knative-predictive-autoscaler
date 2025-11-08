@@ -1,0 +1,143 @@
+INFO:__main__:
+============================================================
+INFO:__main__:Starting metrics collection for func_235 (prophet)
+INFO:__main__:Duration: 600s, Interval: 5s
+INFO:__main__:============================================================
+
+INFO:__main__:Time       Pods   Pending  Desired  CPU(m)   Mem(MB)  Cold Start  
+INFO:__main__:----------------------------------------------------------------------
+INFO:__main__:21:15:46   0      0        0        0        0                    
+INFO:__main__:21:15:51   0      0        0        0        0                    
+INFO:__main__:21:15:57   0      0        0        0        0                    
+INFO:__main__:21:16:03   0      0        0        0        0                    
+INFO:__main__:21:16:08   0      0        0        0        0                    
+INFO:__main__:21:16:14   0      0        0        0        0                    
+INFO:__main__:21:16:20   0      0        0        0        0                    
+INFO:__main__:21:16:25   0      0        0        0        0                    
+INFO:__main__:21:16:31   0      0        0        0        0                    
+INFO:__main__:21:16:36   0      0        0        0        0                    
+INFO:__main__:21:16:42   0      0        0        0        0                    
+INFO:__main__:21:16:47   0      0        0        0        0                    
+INFO:__main__:21:16:53   0      0        0        0        0                    
+INFO:__main__:21:16:58   0      0        0        0        0                    
+INFO:__main__:21:17:04   0      0        0        0        0                    
+INFO:__main__:21:17:10   0      0        0        0        0                    
+INFO:__main__:21:17:16   0      0        0        0        0                    
+INFO:__main__:21:17:21   0      0        0        0        0                    
+INFO:__main__:21:17:27   0      0        0        0        0                    
+INFO:__main__:21:17:33   0      0        0        0        0                    
+INFO:__main__:21:17:38   0      0        0        0        0                    
+INFO:__main__:21:17:44   0      0        0        0        0                    
+INFO:__main__:21:17:49   0      0        0        0        0                    
+INFO:__main__:21:17:55   0      0        0        0        0                    
+INFO:__main__:21:18:00   0      0        0        0        0                    
+INFO:__main__:21:18:06   0      0        0        0        0                    
+INFO:__main__:21:18:12   0      0        0        0        0                    
+INFO:__main__:21:18:17   0      0        0        0        0                    
+INFO:__main__:21:18:23   0      0        0        0        0                    
+INFO:__main__:21:18:28   0      0        0        0        0                    
+INFO:__main__:21:18:34   0      0        0        0        0                    
+INFO:__main__:21:18:39   0      0        0        0        0                    
+INFO:__main__:21:18:45   0      0        0        0        0                    
+INFO:__main__:21:18:51   0      0        0        0        0                    
+INFO:__main__:21:18:56   0      0        0        0        0                    
+INFO:__main__:21:19:01   0      0        0        0        0                    
+INFO:__main__:21:19:07   0      0        0        0        0                    
+INFO:__main__:21:19:13   0      0        0        0        0                    
+INFO:__main__:21:19:18   0      0        0        0        0                    
+INFO:__main__:21:19:24   0      0        0        0        0                    
+INFO:__main__:21:19:29   0      0        0        0        0                    
+INFO:__main__:21:19:35   0      0        0        0        0                    
+INFO:__main__:21:19:40   0      0        0        0        0                    
+INFO:__main__:21:19:46   0      0        0        0        0                    
+INFO:__main__:21:19:51   0      0        0        0        0                    
+INFO:__main__:21:19:57   0      0        0        0        0                    
+INFO:__main__:21:20:02   0      0        0        0        0                    
+INFO:__main__:21:20:08   0      0        0        0        0                    
+INFO:__main__:21:20:14   0      0        0        0        0                    
+INFO:__main__:21:20:19   0      0        0        0        0                    
+INFO:__main__:21:20:25   0      0        0        0        0                    
+INFO:__main__:21:20:30   0      0        0        0        0                    
+INFO:__main__:21:20:36   0      0        0        0        0                    
+INFO:__main__:21:20:41   0      0        0        0        0                    
+INFO:__main__:21:20:47   0      0        0        0        0                    
+INFO:__main__:21:20:52   0      0        0        0        0                    
+INFO:__main__:21:20:58   0      0        0        0        0                    
+INFO:__main__:21:21:04   0      0        0        0        0                    
+INFO:__main__:21:21:10   0      0        0        0        0                    
+INFO:__main__:21:21:15   0      0        0        0        0                    
+INFO:__main__:21:21:21   0      0        0        0        0                    
+INFO:__main__:21:21:26   0      0        0        0        0                    
+INFO:__main__:21:21:32   0      0        0        0        0                    
+INFO:__main__:21:21:37   0      0        0        0        0                    
+INFO:__main__:21:21:43   0      0        0        0        0                    
+INFO:__main__:21:21:48   0      0        0        0        0                    
+INFO:__main__:21:21:54   0      0        0        0        0                    
+INFO:__main__:21:22:00   0      0        0        0        0                    
+INFO:__main__:21:22:05   0      0        0        0        0                    
+INFO:__main__:21:22:11   0      0        0        0        0                    
+INFO:__main__:21:22:17   0      0        0        0        0                    
+INFO:__main__:21:22:22   0      0        0        0        0                    
+INFO:__main__:21:22:28   0      0        0        0        0                    
+INFO:__main__:21:22:33   0      0        0        0        0                    
+INFO:__main__:21:22:39   0      0        0        0        0                    
+INFO:__main__:21:22:44   0      0        0        0        0                    
+INFO:__main__:21:22:50   0      0        0        0        0                    
+INFO:__main__:21:22:55   0      0        0        0        0                    
+INFO:__main__:21:23:01   0      0        0        0        0                    
+INFO:__main__:21:23:07   0      0        0        0        0                    
+INFO:__main__:21:23:12   0      0        0        0        0                    
+INFO:__main__:21:23:18   0      0        0        0        0                    
+INFO:__main__:21:23:23   0      0        0        0        0                    
+INFO:__main__:21:23:29   0      0        0        0        0                    
+INFO:__main__:21:23:34   0      0        0        0        0                    
+INFO:__main__:21:23:40   0      0        0        0        0                    
+INFO:__main__:21:23:46   0      0        0        0        0                    
+INFO:__main__:21:23:51   0      0        0        0        0                    
+INFO:__main__:21:23:57   0      0        0        0        0                    
+INFO:__main__:21:24:02   0      0        0        0        0                    
+INFO:__main__:21:24:08   0      0        0        0        0                    
+INFO:__main__:21:24:13   0      0        0        0        0                    
+INFO:__main__:21:24:19   0      0        0        0        0                    
+INFO:__main__:21:24:24   0      0        0        0        0                    
+INFO:__main__:21:24:30   0      0        0        0        0                    
+INFO:__main__:21:24:35   0      0        0        0        0                    
+INFO:__main__:21:24:41   0      0        0        0        0                    
+INFO:__main__:21:24:47   0      0        0        0        0                    
+INFO:__main__:21:24:52   0      0        0        0        0                    
+INFO:__main__:21:24:58   0      0        0        0        0                    
+INFO:__main__:21:25:04   0      0        0        0        0                    
+INFO:__main__:21:25:10   0      0        0        0        0                    
+INFO:__main__:21:25:15   0      0        0        0        0                    
+INFO:__main__:21:25:21   0      0        0        0        0                    
+INFO:__main__:21:25:26   0      0        0        0        0                    
+INFO:__main__:21:25:32   0      0        0        0        0                    
+INFO:__main__:21:25:38   0      0        0        0        0                    
+INFO:__main__:21:25:43   0      0        0        0        0                    
+INFO:__main__:
+✓ Metrics saved to: results/metrics/func_235_prophet_1762377949.csv
+INFO:__main__:
+============================================================
+INFO:__main__:METRICS SUMMARY
+INFO:__main__:============================================================
+INFO:__main__:
+Pod Scaling:
+INFO:__main__:  Max pods: 0
+INFO:__main__:  Avg pods: 0.00
+INFO:__main__:  Min pods: 0
+INFO:__main__:  Scale-to-zero events: 108
+INFO:__main__:
+Cold Starts:
+INFO:__main__:  Total cold starts: 0
+INFO:__main__:
+Resource Usage:
+INFO:__main__:  Avg CPU: 0 millicores
+INFO:__main__:  Peak CPU: 0 millicores
+INFO:__main__:  Avg Memory: 0 MB
+INFO:__main__:  Peak Memory: 0 MB
+INFO:__main__:
+Scaling Accuracy:
+INFO:__main__:  Avg scale difference: 0.00
+INFO:__main__:  Perfect scaling: 100.0%
+INFO:__main__:============================================================
+

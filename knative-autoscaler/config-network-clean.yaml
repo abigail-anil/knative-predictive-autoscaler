@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-network
+  namespace: knative-serving
+data:
+  ingress-class: "kourier.ingress.networking.knative.dev"
+  domain-template: "{{.Name}}.{{.Namespace}}.{{.Domain}}"
+  http-protocol: "Enabled"
+  default-external-scheme: "http"

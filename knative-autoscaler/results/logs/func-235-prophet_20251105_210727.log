@@ -1,0 +1,15 @@
+INFO:__main__:
+============================================================
+INFO:__main__:Starting metrics collection for func_235 (prophet)
+INFO:__main__:Duration: 600s, Interval: 5s
+INFO:__main__:============================================================
+
+INFO:__main__:Time       Pods   Pending  Desired  CPU(m)   Mem(MB)  Cold Start  
+INFO:__main__:----------------------------------------------------------------------
+INFO:__main__:21:07:35   0      0        0        0        0                    
+INFO:__main__:21:07:42   0      0        0        0        0                    
+INFO:__main__:21:07:47   0      0        0        0        0                    
+INFO:__main__:21:07:53   0      0        0        0        0                    
+INFO:__main__:21:07:59   0      0        0        0        0                    
+INFO:__main__:
+Metrics collection stopped by user

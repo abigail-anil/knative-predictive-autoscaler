@@ -1,0 +1,16 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: func-ml-autoscaler
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+        - image: localhost:5000/knative-ml-autoscaler@sha256:deb7c600f103fff14330bc61ac6b40727e95c5552370847ac1de883e26c44edc
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: "1"
+              memory: "1Gi"

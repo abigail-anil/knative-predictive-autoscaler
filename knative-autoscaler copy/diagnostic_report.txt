@@ -1,0 +1,40 @@
+=== DIAGNOSTIC REPORT ===
+
+1. Docker images:
+host.docker.internal:5000/forecasting-api                     latest                                                                        5f64c00f7cbf   9 hours ago     4.02GB
+forecasting-api                                               latest                                                                        e3f5e43bdbfc   9 hours ago     4.02GB
+localhost:5000/forecasting-api                                latest                                                                        e3f5e43bdbfc   9 hours ago     4.02GB
+
+2. Knative services:
+NAME               URL                                                  LATESTCREATED            LATESTREADY   READY   REASON
+func-110-prophet   http://func-110-prophet.default.127.0.0.1.sslip.io   func-110-prophet-00001                 False   RevisionMissing
+
+3. Pods:
+
+4. Revisions:
+NAME                     CONFIG NAME        K8S SERVICE NAME   GENERATION   READY   REASON             ACTUAL REPLICAS   DESIRED REPLICAS
+func-110-prophet-00001   func-110-prophet                      1            False   ContainerMissing                     
+
+5. Events (last 20):
+24m         Normal    Created                 configuration/func-110-prophet           Created Revision "func-110-prophet-00002"
+24m         Warning   LatestCreatedFailed     configuration/func-110-prophet           Latest created revision "func-110-prophet-00002" has failed
+16m         Normal    Created                 configuration/func-110-prophet           Created Revision "func-110-prophet-00003"
+16m         Warning   LatestCreatedFailed     configuration/func-110-prophet           Latest created revision "func-110-prophet-00003" has failed
+9m58s       Normal    Created                 configuration/func-110-prophet           Created Revision "func-110-prophet-00004"
+9m58s       Warning   LatestCreatedFailed     configuration/func-110-prophet           Latest created revision "func-110-prophet-00004" has failed
+7m51s       Warning   InternalError           revision/func-110-prophet-00004          Unable to fetch image "localhost:5000/forecasting-api:latest": failed to resolve image to digest: Get "https://localhost:5000/v2/": dial tcp [::1]:5000: connect: connection refused; Get "http://localhost:5000/v2/": dial tcp [::1]:5000: connect: connection refused
+7m50s       Warning   InternalError           revision/func-110-prophet-00003          Unable to fetch image "forecasting-api:latest": failed to resolve image to digest: HEAD https://index.docker.io/v2/library/forecasting-api/manifests/latest: unexpected status code 401 Unauthorized (HEAD responses have no body, use GET for details)
+7m32s       Warning   InternalError           revision/func-110-prophet-00002          Unable to fetch image "forecasting-api:latest": failed to resolve image to digest: HEAD https://index.docker.io/v2/library/forecasting-api/manifests/latest: unexpected status code 401 Unauthorized (HEAD responses have no body, use GET for details)
+7m3s        Warning   InternalError           revision/func-110-prophet-00001          Unable to fetch image "host.docker.internal:5000/forecasting-api:latest": failed to resolve image to digest: Get "https://host.docker.internal:5000/v2/": http: server gave HTTP response to HTTPS client
+6m15s       Warning   InternalError           route/func-110-prophet                   failed to remove route annotation to /, Kind= "func-110-prophet": configurations.serving.knative.dev "func-110-prophet" not found
+6m15s       Warning   InternalError           route/func-110-prophet                   failed to remove route annotation to /, Kind= "func-110-prophet-00004": revisions.serving.knative.dev "func-110-prophet-00004" not found
+6m15s       Normal    FinalizerUpdate         route/func-110-prophet                   Updated "func-110-prophet" finalizers
+5m24s       Normal    Created                 service/func-110-prophet                 Created Route "func-110-prophet"
+5m24s       Normal    FinalizerUpdate         route/func-110-prophet                   Updated "func-110-prophet" finalizers
+5m24s       Warning   FinalizerUpdateFailed   route/func-110-prophet                   Failed to update finalizers for "func-110-prophet": Operation cannot be fulfilled on routes.serving.knative.dev "func-110-prophet": the object has been modified; please apply your changes to the latest version and try again
+5m24s       Normal    Created                 configuration/func-110-prophet           Created Revision "func-110-prophet-00001"
+5m24s       Normal    Created                 service/func-110-prophet                 Created Configuration "func-110-prophet"
+5m22s       Warning   LatestCreatedFailed     configuration/func-110-prophet           Latest created revision "func-110-prophet-00001" has failed
+59s         Warning   InternalError           revision/func-110-prophet-00001          Unable to fetch image "forecasting-api:latest": failed to resolve image to digest: HEAD https://index.docker.io/v2/library/forecasting-api/manifests/latest: unexpected status code 401 Unauthorized (HEAD responses have no body, use GET for details)
+
+6. Describe one service:

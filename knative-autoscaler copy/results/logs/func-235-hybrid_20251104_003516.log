@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/mnt/c/Users/Mathe/Downloads/Abigail/Thesis/Project/knative-autoscaler/experiments/metrics_collector.py", line 8, in <module>
+    import pandas as pd
+ModuleNotFoundError: No module named 'pandas'

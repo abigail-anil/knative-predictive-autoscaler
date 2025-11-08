@@ -32,7 +32,7 @@ FUNCTION_ID = os.environ.get('FUNCTION_ID', 'func_235')
 MODEL_TYPE = os.environ.get('MODEL_TYPE', 'prophet')
 
 def load_models():
-    #Load only the required model based on environment variables
+    """Load only the required model based on environment variables"""
     logger.info(f"Loading {MODEL_TYPE} model for {FUNCTION_ID}...")
     
     try:
