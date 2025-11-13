@@ -1,0 +1,40 @@
+{
+  "functions": [
+    "func_235",
+    "func_242",
+    "func_126",
+    "func_186",
+    "func_190",
+    "func_110",
+    "func_99",
+    "func_191"
+  ],
+  "models_saved": {
+    "prophet": 8,
+    "hybrid": 8,
+    "lstm": 8
+  },
+  "model_descriptions": {
+    "prophet": {
+      "description": "Standalone Prophet model (fixed datetime)",
+      "files": [
+        "<func_id>_prophet.pkl"
+      ]
+    },
+    "hybrid": {
+      "description": "Prophet + LSTM on Prophet residuals",
+      "files": [
+        "<func_id>_prophet.pkl",
+        "<func_id>_lstm_residual.h5",
+        "<func_id>_scalers.pkl"
+      ]
+    },
+    "lstm": {
+      "description": "Standalone LSTM model",
+      "files": [
+        "<func_id>_lstm.h5",
+        "<func_id>_scalers.pkl"
+      ]
+    }
+  }
+}
