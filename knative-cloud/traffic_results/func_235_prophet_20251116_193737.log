@@ -1,0 +1,10 @@
+TRAFFIC RUN: func_235-prophet
+Target URL: http://func-235-prophet.default.172.199.57.57.sslip.io
+[2025-11-16T19:37:37+00:00] Minute 1/10: 69 req
+→ 0/50 ok | pods=0 | avg=232.6ms | p95=913.3ms 
+[2025-11-16T19:37:50+00:00] Minute 2/10: 94 req
+→ 0/50 ok | pods=0 | avg=131.3ms | p95=250.9ms 
+[2025-11-16T19:38:02+00:00] Minute 3/10: 0 req
+[2025-11-16T19:38:03+00:00] Minute 4/10: 64 req
+→ 0/50 ok | pods=0 | avg=166.1ms | p95=748.2ms 
+[2025-11-16T19:38:12+00:00] Minute 5/10: 93 req

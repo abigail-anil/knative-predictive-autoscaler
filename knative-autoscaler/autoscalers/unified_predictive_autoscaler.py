@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""
-Unified Predictive Autoscaler - Using ClusterIP
-"""
+#Unified Predictive Autoscaler - Using ClusterIP
+
 import requests
 import subprocess
 import json
@@ -36,7 +35,7 @@ class PredictiveAutoscaler:
         self.api_url = self.get_service_url()
     
     def get_service_url(self):
-        """Get the internal Kubernetes service URL"""
+        #Get the internal Kubernetes service URL
         try:
             result = subprocess.run(
                 ['kubectl', 'get', 'ksvc', self.service_name, '-o', 'json'],

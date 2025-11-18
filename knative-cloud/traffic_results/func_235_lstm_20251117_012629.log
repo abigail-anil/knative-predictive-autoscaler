@@ -1,0 +1,27 @@
+TRAFFIC RUN: func_235-lstm
+Target URL: http://func-235-lstm.default.172.199.57.57.sslip.io
+[2025-11-17T01:26:30+00:00] Minute 1/10: 69 req
+→ 50/50 ok | pods=6 | avg=806.4ms | p95=1272.3ms cold
+[2025-11-17T01:27:12+00:00] Minute 2/10: 94 req
+→ 50/50 ok | pods=8 | avg=952.9ms | p95=1773.4ms cold
+[2025-11-17T01:28:03+00:00] Minute 3/10: 0 req
+[2025-11-17T01:28:04+00:00] Minute 4/10: 64 req
+→ 50/50 ok | pods=9 | avg=886.4ms | p95=1738.9ms cold
+[2025-11-17T01:28:51+00:00] Minute 5/10: 93 req
+→ 50/50 ok | pods=9 | avg=795.6ms | p95=1172.8ms 
+[2025-11-17T01:29:33+00:00] Minute 6/10: 66 req
+→ 50/50 ok | pods=0 | avg=879.7ms | p95=1777.4ms 
+[2025-11-17T01:30:48+00:00] Minute 7/10: 2 req
+→ 2/2 ok | pods=9 | avg=979.6ms | p95=1212.8ms cold
+[2025-11-17T01:30:52+00:00] Minute 8/10: 22 req
+→ 22/22 ok | pods=8 | avg=878.3ms | p95=1709.5ms 
+[2025-11-17T01:31:13+00:00] Minute 9/10: 53 req
+→ 50/50 ok | pods=9 | avg=937.3ms | p95=1764.6ms cold
+[2025-11-17T01:32:03+00:00] Minute 10/10: 13 req
+→ 13/13 ok | pods=9 | avg=885.0ms | p95=1502.1ms 
+
+
+Run complete. Detailed metrics saved to traffic_results/func_235_lstm_20251117_012629.csv
+Mean success: 100.0%
+Avg p95 latency: 1547.1 ms
+Cold starts detected: 5

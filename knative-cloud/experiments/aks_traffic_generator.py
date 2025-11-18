@@ -106,7 +106,9 @@ def generate_traffic(function_id, model_type, data_file, duration=10, speedup=60
                 continue
 
             actual = min(requests_per_min, 50)
-            delay = (60 / actual) / speedup
+            #delay = (60 / actual) / speedup
+            delay = max((60 / actual) / (speedup * 5), 0.01)
+
             latencies, success, errors = [], 0, 0
 
             # ---- send requests ----

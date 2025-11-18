@@ -1,0 +1,33 @@
+TRAFFIC RUN: func_235-lstm
+Target URL: http://func-235-lstm.default.172.199.57.57.sslip.io
+[2025-11-13T02:57:30+00:00] Minute 1/15: 10 req
+→ 10/10 ok | pods=1 | avg=890.1ms | p95=1139.8ms cold
+[2025-11-13T02:57:41+00:00] Minute 2/15: 50 req
+→ 50/50 ok | pods=1 | avg=839.6ms | p95=936.3ms 
+[2025-11-13T02:58:25+00:00] Minute 3/15: 100 req
+→ 50/50 ok | pods=1 | avg=880.6ms | p95=992.4ms 
+[2025-11-13T02:59:12+00:00] Minute 4/15: 500 req
+→ 50/50 ok | pods=1 | avg=852.7ms | p95=956.2ms 
+[2025-11-13T02:59:57+00:00] Minute 5/15: 700 req
+→ 50/50 ok | pods=1 | avg=888.2ms | p95=982.7ms 
+[2025-11-13T03:00:44+00:00] Minute 6/15: 900 req
+→ 50/50 ok | pods=1 | avg=890.8ms | p95=968.5ms 
+[2025-11-13T03:01:30+00:00] Minute 7/15: 0 req
+[2025-11-13T03:01:36+00:00] Minute 8/15: 0 req
+[2025-11-13T03:01:42+00:00] Minute 9/15: 0 req
+[2025-11-13T03:01:48+00:00] Minute 10/15: 600 req
+→ 50/50 ok | pods=1 | avg=851.8ms | p95=933.3ms 
+[2025-11-13T03:02:33+00:00] Minute 11/15: 900 req
+→ 50/50 ok | pods=1 | avg=847.3ms | p95=901.0ms 
+[2025-11-13T03:03:17+00:00] Minute 12/15: 0 req
+[2025-11-13T03:03:23+00:00] Minute 13/15: 0 req
+[2025-11-13T03:03:29+00:00] Minute 14/15: 800 req
+→ 50/50 ok | pods=1 | avg=844.0ms | p95=924.6ms 
+[2025-11-13T03:04:14+00:00] Minute 15/15: 900 req
+→ 50/50 ok | pods=1 | avg=835.3ms | p95=913.5ms 
+
+
+Run complete. Detailed metrics saved to traffic_results/func_235_lstm_20251113_025730.csv
+Mean success: 100.0%
+Avg p95 latency: 964.8 ms
+Cold starts detected: 1

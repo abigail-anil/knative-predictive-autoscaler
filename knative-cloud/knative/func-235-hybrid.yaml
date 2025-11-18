@@ -8,16 +8,19 @@ spec:
     metadata:
       annotations:
         autoscaling.knative.dev/min-scale: "1"
-        autoscaling.knative.dev/max-scale: "10"
-        autoscaling.knative.dev/target: "50"
+        autoscaling.knative.dev/max-scale: "3"
+        autoscaling.knative.dev/target: "5"
         autoscaling.knative.dev/metric: "concurrency"
-        autoscaling.knative.dev/queue-sidecar-cpu-request: "50m"
-        autoscaling.knative.dev/queue-sidecar-memory-request: "64Mi"
-        autoscaling.knative.dev/queue-sidecar-cpu-limit: "100m"
-        autoscaling.knative.dev/queue-sidecar-memory-limit: "128Mi"
+        autoscaling.knative.dev/window: "10s"
+        autoscaling.knative.dev/scale-down-delay: "30s"
+        autoscaling.knative.dev/stable-window: "30s"
+
     spec:
+      containerConcurrency: 1
+      timeoutSeconds: 60
+
       containers:
-      - image: knativeacr25446.azurecr.io/forecasting-api:v3
+      - image: knativeacr25446.azurecr.io/forecasting-api:v32
         imagePullPolicy: Always
         name: forecasting
         env:
@@ -27,20 +30,18 @@ spec:
           value: "func_235"
         ports:
         - containerPort: 8080
-          protocol: TCP
+
         readinessProbe:
           httpGet:
             path: /health
             port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-          successThreshold: 1
+          initialDelaySeconds: 3
+          periodSeconds: 5
+
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "250m"
+            cpu: "100m"
+            memory: "1.1Gi"
           limits:
-            memory: "1Gi"
             cpu: "500m"
+            memory: "1.8Gi"

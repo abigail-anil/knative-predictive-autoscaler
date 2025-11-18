@@ -14,10 +14,11 @@ def shift_prophet_to_present(model_path, output_path=None, days_ago=7):
     """
     Shift Prophet model training dates to recent past
     
+   
     """
-    print(f"\n{'='*80}")
+
     print(f"Processing: {model_path}")
-    print(f"{'='*80}")
+
     
     # Load model
     model = joblib.load(model_path)
@@ -27,7 +28,7 @@ def shift_prophet_to_present(model_path, output_path=None, days_ago=7):
     original_end = model.history['ds'].max()
     training_duration = original_end - original_start
     
-    print(f"\n ORIGINAL DATES:")
+    print(f"\nORIGINAL DATES:")
     print(f"  Start: {original_start}")
     print(f"  End:   {original_end}")
     print(f"  Duration: {training_duration}")
@@ -37,7 +38,7 @@ def shift_prophet_to_present(model_path, output_path=None, days_ago=7):
     new_end = pd.Timestamp.now() - pd.Timedelta(days=days_ago)
     new_start = new_end - training_duration
     
-    print(f"\n NEW DATES:")
+    print(f"\nNEW DATES:")
     print(f"  Start: {new_start}")
     print(f"  End:   {new_end}")
     print(f"  Duration: {training_duration} (preserved)")
@@ -50,12 +51,12 @@ def shift_prophet_to_present(model_path, output_path=None, days_ago=7):
     model.history['ds'] = model.history['ds'] + time_shift
     
     # Verify
-    print(f"\n VERIFICATION:")
+    print(f"\nVERIFICATION:")
     print(f"  New date range: {model.history['ds'].min()} to {model.history['ds'].max()}")
     print(f"  Years: {model.history['ds'].dt.year.min()} to {model.history['ds'].dt.year.max()}")
     
     # Test prediction
-    print(f"\n TESTING PREDICTIONS:")
+    print(f"\nTESTING PREDICTIONS:")
     last_date = model.history['ds'].max()
     future = pd.DataFrame({
         'ds': pd.date_range(start=last_date + pd.Timedelta(minutes=1), 
@@ -79,14 +80,14 @@ def shift_prophet_to_present(model_path, output_path=None, days_ago=7):
     elif all(p == 0 for p in predictions):
         print(f"  WARNING: All predictions are zero!")
     else:
-        print(f" Predictions look reasonable!")
+        print(f"  Predictions look reasonable!")
     
     # Save
     if output_path is None:
         output_path = model_path
     
     joblib.dump(model, output_path)
-    print(f"\n Saved to: {output_path}")
+    print(f"\nSaved to: {output_path}")
     
     return model
 
@@ -95,9 +96,9 @@ def shift_all_prophet_models(models_dir='models', days_ago=7):
     """
     Shift all Prophet models to present day
     """
-    print("\n" + "="*80)
+ 
     print("SHIFT PROPHET MODELS TO PRESENT")
-    print("="*80)
+
     print(f"\nConfiguration:")
     print(f"  Models directory: {models_dir}")
     print(f"  Training end date: {days_ago} days ago")
@@ -111,7 +112,7 @@ def shift_all_prophet_models(models_dir='models', days_ago=7):
             try:
                 shift_prophet_to_present(model_file, days_ago=days_ago)
             except Exception as e:
-                print(f" Error: {e}")
+                print(f"Error: {e}")
     
     # Process Hybrid Prophet models
     hybrid_dir = Path(models_dir) / 'hybrid'
@@ -121,11 +122,11 @@ def shift_all_prophet_models(models_dir='models', days_ago=7):
             try:
                 shift_prophet_to_present(model_file, days_ago=days_ago)
             except Exception as e:
-                print(f"  Error: {e}")
+                print(f" Error: {e}")
     
-    print("\n" + "="*80)
+    print("\n" )
     print("ALL MODELS SHIFTED")
-    print("="*80)
+
 
 
 if __name__ == '__main__':

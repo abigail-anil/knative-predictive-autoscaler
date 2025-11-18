@@ -1,15 +1,35 @@
 #!/bin/bash
 
-FUNCTIONS=("func_235" "func_126" "func_110")
+ACR="${ACR_LOGIN_SERVER:-knativeacr25446.azurecr.io}"
+
+FUNCTIONS=("func_235")
 MODELS=("prophet" "lstm" "hybrid")
 
 mkdir -p knative
 
 for func in "${FUNCTIONS[@]}"; do
-    for model in "${MODELS[@]}"; do
-        SERVICE_NAME="${func//_/-}-${model}"
-        
-        cat > knative/${SERVICE_NAME}.yaml << YAML
+  for model in "${MODELS[@]}"; do
+
+    SERVICE_NAME="${func//_/-}-${model}"
+
+    MIN_SCALE="1"
+    MAX_SCALE="3"
+    TARGET="5"
+
+    if [[ "$model" == "prophet" ]]; then
+        REQ_MEM="0.9Gi"
+        LIM_MEM="1.5Gi"
+
+    elif [[ "$model" == "lstm" ]]; then
+        REQ_MEM="1.0Gi"
+        LIM_MEM="1.8Gi"
+
+    elif [[ "$model" == "hybrid" ]]; then
+        REQ_MEM="1.1Gi"
+        LIM_MEM="1.8Gi"
+    fi
+
+cat > knative/${SERVICE_NAME}.yaml << YAML
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
@@ -19,17 +39,20 @@ spec:
   template:
     metadata:
       annotations:
-        autoscaling.knative.dev/min-scale: "1"
-        autoscaling.knative.dev/max-scale: "10"
-        autoscaling.knative.dev/target: "50"
+        autoscaling.knative.dev/min-scale: "${MIN_SCALE}"
+        autoscaling.knative.dev/max-scale: "${MAX_SCALE}"
+        autoscaling.knative.dev/target: "${TARGET}"
         autoscaling.knative.dev/metric: "concurrency"
-        autoscaling.knative.dev/queue-sidecar-cpu-request: "50m"
-        autoscaling.knative.dev/queue-sidecar-memory-request: "64Mi"
-        autoscaling.knative.dev/queue-sidecar-cpu-limit: "100m"
-        autoscaling.knative.dev/queue-sidecar-memory-limit: "128Mi"
+        autoscaling.knative.dev/window: "10s"
+        autoscaling.knative.dev/scale-down-delay: "30s"
+        autoscaling.knative.dev/stable-window: "30s"
+
     spec:
+      containerConcurrency: 1
+      timeoutSeconds: 60
+
       containers:
-      - image: ${ACR_LOGIN_SERVER}/forecasting-api:v3
+      - image: ${ACR}/forecasting-api:v32
         imagePullPolicy: Always
         name: forecasting
         env:
@@ -39,27 +62,24 @@ spec:
           value: "${func}"
         ports:
         - containerPort: 8080
-          protocol: TCP
+
         readinessProbe:
           httpGet:
             path: /health
             port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-          successThreshold: 1
+          initialDelaySeconds: 3
+          periodSeconds: 5
+
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "250m"
+            cpu: "100m"
+            memory: "${REQ_MEM}"
           limits:
-            memory: "1Gi"
             cpu: "500m"
+            memory: "${LIM_MEM}"
 YAML
-        
-        echo "Created knative/${SERVICE_NAME}.yaml"
-    done
-done
 
-echo "All predictive YAML files generated with readiness probe and queue-proxy resource limits"
+    echo "Generated knative/${SERVICE_NAME}.yaml with memory ${REQ_MEM} -> ${LIM_MEM}"
+
+  done
+done
