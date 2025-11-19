@@ -115,8 +115,12 @@ def generate_traffic(function_id, model_type, data_file, duration=10, speedup=60
             for _ in range(actual):
                 start = time.time()
                 try:
-                    payload = {"recent_data": [10] * 30, "periods": 5}
-                    r = requests.post(f"{url}/predict", json=payload, timeout=5)
+                    if model_type == "reactive":
+                        r = requests.get(url, timeout=5)
+                    else:
+                        payload = {"recent_data": [10] * 30, "periods": 5}
+                        r = requests.post(f"{url}/predict", json=payload, timeout=5)
+
                     latency = (time.time() - start) * 1000
                     latencies.append(latency)
                     if r.status_code == 200:

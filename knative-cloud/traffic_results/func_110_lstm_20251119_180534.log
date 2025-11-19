@@ -1,0 +1,20 @@
+TRAFFIC RUN: func_110-lstm
+Target URL: http://func-110-lstm.default.172.199.57.57.sslip.io
+[2025-11-19T18:05:34+00:00] Minute 1/10: 195 req
+→ 50/50 ok | pods=6 | avg=503.2ms | p95=668.0ms cold
+[2025-11-19T18:06:01+00:00] Minute 2/10: 587 req
+→ 50/50 ok | pods=6 | avg=520.7ms | p95=727.3ms 
+[2025-11-19T18:06:28+00:00] Minute 3/10: 0 req
+[2025-11-19T18:06:29+00:00] Minute 4/10: 0 req
+[2025-11-19T18:06:30+00:00] Minute 5/10: 0 req
+[2025-11-19T18:06:31+00:00] Minute 6/10: 0 req
+[2025-11-19T18:06:32+00:00] Minute 7/10: 0 req
+[2025-11-19T18:06:33+00:00] Minute 8/10: 0 req
+[2025-11-19T18:06:34+00:00] Minute 9/10: 0 req
+[2025-11-19T18:06:35+00:00] Minute 10/10: 0 req
+
+
+Run complete. Detailed metrics saved to traffic_results/func_110_lstm_20251119_180534.csv
+Mean success: 100.0%
+Avg p95 latency: 697.7 ms
+Cold starts detected: 1

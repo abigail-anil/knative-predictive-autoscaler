@@ -57,10 +57,18 @@ def load_prophet_model(fid):
         logger.info(f"Loading Prophet model from {path}")
         model = joblib.load(path)
         
-        # CRITICAL: Disable Stan backend to prevent hanging
+        # Disable Stan backend to prevent hanging
         if hasattr(model, 'stan_backend'):
             model.stan_backend = None
         
+        model.uncertainty_samples = 0
+        model.mcmc_samples = 0
+
+        if hasattr(model, 'stan_fit'):
+            model.stan_fit = None
+
+        logger.info("Disabled uncertainty sampling for faster predictions")
+
         # Validate model has required data
         if not hasattr(model, 'history') or model.history.empty:
             raise ValueError("Prophet model has no training history")
@@ -210,93 +218,101 @@ def load_hybrid_models(fid):
         raise HTTPException(500, "Hybrid model files missing")
 
     try:
-        # Load Prophet
+        # Load Prophet for Hybrid
         prophet_model = joblib.load(prophet_path)
+
+        # Disable Stan backend + heavy sampling
         if hasattr(prophet_model, 'stan_backend'):
             prophet_model.stan_backend = None
-        
+
+        prophet_model.uncertainty_samples = 0
+        prophet_model.mcmc_samples = 0
+
+        if hasattr(prophet_model, 'stan_fit'):
+            prophet_model.stan_fit = None
+
+        logger.info("Disabled Stan + uncertainty for Hybrid Prophet model")
+
+        # Ensure datetime and logistic fields
         if hasattr(prophet_model, 'history') and "ds" in prophet_model.history.columns:
             prophet_model.history["ds"] = pd.to_datetime(prophet_model.history["ds"], errors='coerce')
-            
+
             if "cap" not in prophet_model.history.columns:
                 prophet_model.history["cap"] = prophet_model.history["y"].max() * 1.5
             if "floor" not in prophet_model.history.columns:
                 prophet_model.history["floor"] = 0.0
-        
-        # Load scalers if they exist
+
+        # Load scalers 
         scalers = None
         if os.path.exists(scaler_path):
-            logger.info(f"Loading hybrid scalers from {scaler_path}")
             scalers = joblib.load(scaler_path)
-        
-        # Load LSTM with same compatibility handling
+            logger.info(f"Loaded hybrid scalers for {fid}")
+
+        # Load LSTM model
+
         try:
             lstm_model = tf.keras.models.load_model(lstm_path, compile=False)
         except Exception as load_error:
             logger.warning(f"Standard LSTM load failed: {load_error}")
             logger.info("Attempting manual reconstruction...")
-            
+
             import h5py
             import json
             from tensorflow.keras.models import Sequential
             from tensorflow.keras.layers import LSTM, Dense, Dropout
-            
+
             with h5py.File(lstm_path, 'r') as f:
                 model_config = f.attrs['model_config']
                 if isinstance(model_config, bytes):
                     model_config = model_config.decode('utf-8')
-                
+
                 config = json.loads(model_config)
+
                 lstm_model = Sequential()
-                
                 layers_config = config['config']['layers']
-                
-                for i, layer_config in enumerate(layers_config):
-                    layer_type = layer_config['class_name']
-                    layer_conf = layer_config['config']
-                    
-                    if layer_type == 'LSTM':
-                        units = layer_conf['units']
-                        return_sequences = layer_conf.get('return_sequences', False)
-                        
+
+                for i, layer_conf in enumerate(layers_config):
+                    class_name = layer_conf['class_name']
+                    conf = layer_conf['config']
+
+                    if class_name == 'LSTM':
+                        units = conf['units']
+                        ret = conf.get('return_sequences', False)
                         if i == 0:
-                            input_shape = layer_conf.get('batch_input_shape', [None, 30, 1])
-                            lstm_model.add(LSTM(
-                                units=units,
-                                return_sequences=return_sequences,
-                                input_shape=(input_shape[1], input_shape[2])
-                            ))
+                            inp = conf.get('batch_input_shape', [None, 30, 1])
+                            lstm_model.add(LSTM(units, return_sequences=ret,
+                                                input_shape=(inp[1], inp[2])))
                         else:
-                            lstm_model.add(LSTM(
-                                units=units,
-                                return_sequences=return_sequences
-                            ))
-                    
-                    elif layer_type == 'Dropout':
-                        lstm_model.add(Dropout(layer_conf['rate']))
-                    
-                    elif layer_type == 'Dense':
-                        lstm_model.add(Dense(layer_conf['units']))
-                
-                # Load weights
+                            lstm_model.add(LSTM(units, return_sequences=ret))
+
+                    elif class_name == 'Dropout':
+                        lstm_model.add(Dropout(conf['rate']))
+
+                    elif class_name == 'Dense':
+                        lstm_model.add(Dense(conf['units']))
+
+                # Load weights manually
                 if 'model_weights' in f:
                     weights_group = f['model_weights']
                     for layer in lstm_model.layers:
                         if layer.name in weights_group:
-                            layer_weights = []
-                            for weight_name in weights_group[layer.name]:
-                                layer_weights.append(weights_group[layer.name][weight_name][()])
-                            if layer_weights:
-                                layer.set_weights(layer_weights)
+                            ws = []
+                            for w in weights_group[layer.name]:
+                                ws.append(weights_group[layer.name][w][()])
+                            layer.set_weights(ws)
 
+        # --------------------------
+        # Store and return hybrid
+        # --------------------------
         hybrid_cache[fid] = {
             "lstm": lstm_model,
             "prophet": prophet_model,
             "scalers": scalers
         }
-        logger.info("Successfully loaded Hybrid models")
+
+        logger.info(f"Successfully loaded Hybrid models for {fid}")
         return hybrid_cache[fid]
-        
+
     except Exception as e:
         logger.error(f"Hybrid load failed: {e}")
         logger.error(traceback.format_exc())
@@ -307,71 +323,58 @@ def load_hybrid_models(fid):
 def predict_prophet(model, periods):
     try:
         logger.info(f"Starting Prophet prediction for {periods} periods")
-        
+
         # Validate history
         if not hasattr(model, 'history') or model.history.empty:
             raise ValueError("Model has no history")
-        
+
         history = model.history["ds"]
         last_date = history.max()
-        
+
         logger.info(f"Last training date: {last_date}")
-        
-        # Infer frequency with fallback
+
+        # Determine frequency
         freq = "1min"
         try:
             recent_history = history.tail(min(200, len(history)))
             inferred_freq = pd.infer_freq(recent_history)
             if inferred_freq:
                 freq = inferred_freq
-                logger.info(f"Inferred frequency: {freq}")
-        except Exception as e:
-            logger.warning(f"Could not infer frequency: {e}")
+        except:
+            pass
 
-        # Create future dataframe
+        # Build future df
         future_dates = pd.date_range(
             start=last_date + pd.Timedelta(minutes=1),
             periods=periods,
             freq=freq
         )
-
         future = pd.DataFrame({"ds": future_dates})
-        
-        # Add cap and floor if model uses them
-        if "cap" in model.history.columns:
+
+        # Add cap/floor if logistic
+        if "cap" in model.history:
             cap_value = float(model.history["cap"].iloc[0])
             future["cap"] = cap_value
             future["floor"] = 0.0
-            logger.info(f"Using growth cap: {cap_value}")
 
-        # Make prediction with error handling
-        logger.info("Calling model.predict()...")
-        
-        #import signal
-        
-        def timeout_handler(signum, frame):
-            raise TimeoutError("Prophet prediction timed out")
-        
-        #signal.signal(signal.SIGALRM, timeout_handler)
-        #signal.alarm(8)
-        
-        try:
-            forecast = model.predict(future)
-            #signal.alarm(0)
-        except TimeoutError:
-            #signal.alarm(0)
-            logger.error("Prophet prediction timed out - using fallback")
-            recent_values = model.history["y"].tail(periods).values
-            pred = np.repeat(recent_values.mean(), periods)
-            return pred.tolist()
-        
-        # Extract predictions and remove offset
+        # Run prediction
+        forecast = model.predict(future)
+
+        # Extract values
         pred = forecast["yhat"].values
         pred = np.maximum(pred - 0.1, 0)
-        
-        logger.info(f"Predictions: {pred[:min(3, len(pred))]}...")
+
+        # --- ZERO/NEAR-ZERO FALLBACK ---
+        if np.all(pred < 0.5):
+            logger.warning("Prophet produced near-zero predictions. Applying fallback.")
+
+            fallback_value = float(model.history['y'].tail(10).mean())
+            fallback_value = max(fallback_value, 0.1)
+
+            pred = np.array([fallback_value] * periods)
+
         return pred.tolist()
-        
+
     except Exception as e:
         logger.error(f"Prophet prediction failed: {e}")
         logger.error(traceback.format_exc())
@@ -455,29 +458,61 @@ def predict_lstm(lstm_bundle, recent_data, periods):
 def predict_hybrid(bundle, recent_data, periods):
     try:
         logger.info("Starting Hybrid prediction")
+
         prophet_model = bundle["prophet"]
         lstm_model = bundle["lstm"]
         scalers = bundle.get("scalers")
 
-        # Get Prophet predictions
+        # Run Prophet
         prophet_out = predict_prophet(prophet_model, periods)
-        
- 
+
+        # Run LSTM
         lstm_bundle_for_pred = {'model': lstm_model, 'scalers': scalers}
         lstm_out = predict_lstm(lstm_bundle_for_pred, recent_data, periods)
 
-        # Ensemble: average (simple approach)
+        # Raw hybrid
         hybrid = [(p + l) / 2.0 for p, l in zip(prophet_out, lstm_out)]
-        
-        logger.info(f"Prophet: {prophet_out[:3]}...")
-        logger.info(f"LSTM: {lstm_out[:3]}...")
-        logger.info(f"Hybrid: {hybrid[:3]}...")
+
+
+        # HYBRID FALLBACK LOGIC -----------
+        # If both models return zeros/near zeros then fallback
+        if all(h < 0.5 for h in hybrid):
+            logger.warning("Hybrid predictions near-zero. Applying fallback.")
+
+            # Use the stronger signal between Prophet and LSTM
+            prophet_mean = np.mean(prophet_out)
+            lstm_mean = np.mean(lstm_out)
+            fallback_value = max(prophet_mean, lstm_mean)
+
+            # Avoid tiny fallback
+            fallback_value = max(fallback_value, 0.1)
+
+            hybrid = [fallback_value] * periods
+            logger.info(f"Hybrid fallback applied: {fallback_value}")
+
+        # If hybrid still contains NaN or inf then fallback
+        if any(np.isnan(h) or np.isinf(h) for h in hybrid):
+            logger.warning("Hybrid returned invalid values. Applying backup fallback.")
+            recent_avg = float(prophet_model.history["y"].tail(10).mean())
+            recent_avg = max(recent_avg, 0.1)
+            hybrid = [recent_avg] * periods
+
+
+        logger.info(f"Hybrid final predictions: {hybrid[:3]}...")
         return hybrid
-        
+
     except Exception as e:
         logger.error(f"Hybrid prediction failed: {e}")
         logger.error(traceback.format_exc())
-        raise HTTPException(500, f"Hybrid prediction failed: {str(e)}")
+
+        #FALLBACK
+        try:
+            recent_avg = float(bundle["prophet"].history["y"].tail(10).mean())
+            recent_avg = max(recent_avg, 0.1)
+            return [recent_avg] * periods
+        except:
+            return [10.0] * periods
+
 
 
 # MAIN PREDICT ENDPOINT

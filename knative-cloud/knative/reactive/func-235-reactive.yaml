@@ -25,7 +25,7 @@ spec:
 
     spec:
       containers:
-      - image: knativeacr25446.azurecr.io/forecasting-api:v5
+      - image: knativeacr25446.azurecr.io/forecasting-api:v44
         imagePullPolicy: IfNotPresent
         name: forecasting
         env:

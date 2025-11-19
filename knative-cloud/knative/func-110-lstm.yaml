@@ -8,13 +8,20 @@ spec:
     metadata:
       annotations:
         autoscaling.knative.dev/min-scale: "1"
-        autoscaling.knative.dev/max-scale: "5"
-        autoscaling.knative.dev/target: "999"
+        autoscaling.knative.dev/max-scale: "3"
+        autoscaling.knative.dev/target: "5"
         autoscaling.knative.dev/metric: "concurrency"
         autoscaling.knative.dev/window: "10s"
+        autoscaling.knative.dev/scale-down-delay: "30s"
+        autoscaling.knative.dev/stable-window: "30s"
+        serving.knative.dev/response-start-timeout: "300"
+
     spec:
+      containerConcurrency: 1
+      timeoutSeconds: 60
+
       containers:
-      - image: knativeacr25446.azurecr.io/forecasting-api:v8
+      - image: knativeacr25446.azurecr.io/forecasting-api:v44
         imagePullPolicy: Always
         name: forecasting
         env:
@@ -22,18 +29,21 @@ spec:
           value: "lstm"
         - name: FUNCTION_ID
           value: "func_110"
+        
         ports:
         - containerPort: 8080
+
         readinessProbe:
           httpGet:
             path: /health
             port: 8080
           initialDelaySeconds: 3
           periodSeconds: 5
+
         resources:
           requests:
-            cpu: "100m"
-            memory: "256Mi"
+            cpu: "500m"
+            memory: "1.5Gi"
           limits:
-            cpu: "250m"
-            memory: "512Mi"
+            cpu: "1500m"
+            memory: "3Gi"

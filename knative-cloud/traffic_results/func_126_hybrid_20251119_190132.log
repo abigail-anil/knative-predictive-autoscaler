@@ -1,0 +1,27 @@
+TRAFFIC RUN: func_126-hybrid
+Target URL: http://func-126-hybrid.default.172.199.57.57.sslip.io
+[2025-11-19T19:01:33+00:00] Minute 1/10: 2 req
+→ 2/2 ok | pods=0 | avg=567.3ms | p95=568.1ms 
+[2025-11-19T19:02:04+00:00] Minute 2/10: 2 req
+→ 0/2 ok | pods=0 | avg=0.0ms | p95=0.0ms 
+[2025-11-19T19:02:45+00:00] Minute 3/10: 3 req
+→ 3/3 ok | pods=3 | avg=662.3ms | p95=702.5ms cold
+[2025-11-19T19:02:48+00:00] Minute 4/10: 0 req
+[2025-11-19T19:02:49+00:00] Minute 5/10: 2 req
+→ 2/2 ok | pods=3 | avg=683.0ms | p95=700.7ms 
+[2025-11-19T19:02:51+00:00] Minute 6/10: 4 req
+→ 4/4 ok | pods=3 | avg=944.3ms | p95=1503.5ms 
+[2025-11-19T19:02:56+00:00] Minute 7/10: 9 req
+→ 9/9 ok | pods=3 | avg=573.2ms | p95=644.3ms 
+[2025-11-19T19:03:02+00:00] Minute 8/10: 8 req
+→ 8/8 ok | pods=3 | avg=547.2ms | p95=621.3ms 
+[2025-11-19T19:03:08+00:00] Minute 9/10: 6 req
+→ 6/6 ok | pods=2 | avg=545.6ms | p95=637.8ms 
+[2025-11-19T19:03:12+00:00] Minute 10/10: 2 req
+→ 2/2 ok | pods=2 | avg=513.6ms | p95=562.7ms 
+
+
+Run complete. Detailed metrics saved to traffic_results/func_126_hybrid_20251119_190132.csv
+Mean success: 88.9%
+Avg p95 latency: 660.1 ms
+Cold starts detected: 1

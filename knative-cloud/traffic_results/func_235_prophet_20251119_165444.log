@@ -1,0 +1,27 @@
+TRAFFIC RUN: func_235-prophet
+Target URL: http://func-235-prophet.default.172.199.57.57.sslip.io
+[2025-11-19T16:54:44+00:00] Minute 1/10: 69 req
+→ 50/50 ok | pods=3 | avg=99.1ms | p95=106.8ms cold
+[2025-11-19T16:54:51+00:00] Minute 2/10: 94 req
+→ 50/50 ok | pods=3 | avg=118.9ms | p95=106.8ms 
+[2025-11-19T16:54:59+00:00] Minute 3/10: 0 req
+[2025-11-19T16:55:00+00:00] Minute 4/10: 64 req
+→ 50/50 ok | pods=3 | avg=105.7ms | p95=108.2ms 
+[2025-11-19T16:55:06+00:00] Minute 5/10: 93 req
+→ 50/50 ok | pods=3 | avg=118.9ms | p95=104.7ms 
+[2025-11-19T16:55:14+00:00] Minute 6/10: 66 req
+→ 50/50 ok | pods=2 | avg=121.2ms | p95=128.2ms 
+[2025-11-19T16:55:22+00:00] Minute 7/10: 2 req
+→ 2/2 ok | pods=2 | avg=105.5ms | p95=115.5ms 
+[2025-11-19T16:55:23+00:00] Minute 8/10: 22 req
+→ 22/22 ok | pods=3 | avg=145.1ms | p95=109.6ms cold
+[2025-11-19T16:55:27+00:00] Minute 9/10: 53 req
+→ 50/50 ok | pods=3 | avg=101.1ms | p95=113.5ms 
+[2025-11-19T16:55:34+00:00] Minute 10/10: 13 req
+→ 13/13 ok | pods=3 | avg=102.0ms | p95=117.6ms 
+
+
+Run complete. Detailed metrics saved to traffic_results/func_235_prophet_20251119_165444.csv
+Mean success: 100.0%
+Avg p95 latency: 112.3 ms
+Cold starts detected: 2

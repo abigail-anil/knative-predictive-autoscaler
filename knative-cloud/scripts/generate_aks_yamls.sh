@@ -2,7 +2,7 @@
 
 ACR="${ACR_LOGIN_SERVER:-knativeacr25446.azurecr.io}"
 
-FUNCTIONS=("func_235")
+FUNCTIONS=("func_126")
 MODELS=("prophet" "lstm" "hybrid")
 
 mkdir -p knative
@@ -19,15 +19,18 @@ for func in "${FUNCTIONS[@]}"; do
     if [[ "$model" == "prophet" ]]; then
         REQ_MEM="1Gi"
         LIM_MEM="2Gi"
-
+        TIMEOUT="300"
+        
     elif [[ "$model" == "lstm" ]]; then
         REQ_MEM="1.5Gi" 
         LIM_MEM="3Gi"
+        TIMEOUT="60"
 
     elif [[ "$model" == "hybrid" ]]; then
         REQ_MEM="1.1Gi"
         LIM_MEM="1.8Gi"
-    fi
+        TIMEOUT="300"
+    fi   
 
 cat > knative/${SERVICE_NAME}.yaml << YAML
 apiVersion: serving.knative.dev/v1
@@ -46,13 +49,14 @@ spec:
         autoscaling.knative.dev/window: "10s"
         autoscaling.knative.dev/scale-down-delay: "30s"
         autoscaling.knative.dev/stable-window: "30s"
+        serving.knative.dev/response-start-timeout: "300"
 
     spec:
       containerConcurrency: 1
       timeoutSeconds: 60
 
       containers:
-      - image: ${ACR}/forecasting-api:v36
+      - image: ${ACR}/forecasting-api:v44
         imagePullPolicy: Always
         name: forecasting
         env:
@@ -60,6 +64,7 @@ spec:
           value: "${model}"
         - name: FUNCTION_ID
           value: "${func}"
+        ${PROPHET_ENV}
         ports:
         - containerPort: 8080
 

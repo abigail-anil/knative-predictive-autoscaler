@@ -1,0 +1,20 @@
+TRAFFIC RUN: func_110-reactive
+Target URL: http://func-110-reactive.default.172.199.57.57.sslip.io
+[2025-11-19T19:24:52+00:00] Minute 1/10: 195 req
+→ 0/50 ok | pods=0 | avg=91.7ms | p95=113.4ms 
+[2025-11-19T19:24:58+00:00] Minute 2/10: 587 req
+→ 0/50 ok | pods=0 | avg=129.3ms | p95=109.1ms 
+[2025-11-19T19:25:05+00:00] Minute 3/10: 0 req
+[2025-11-19T19:25:07+00:00] Minute 4/10: 0 req
+[2025-11-19T19:25:08+00:00] Minute 5/10: 0 req
+[2025-11-19T19:25:10+00:00] Minute 6/10: 0 req
+[2025-11-19T19:25:11+00:00] Minute 7/10: 0 req
+[2025-11-19T19:25:13+00:00] Minute 8/10: 0 req
+[2025-11-19T19:25:14+00:00] Minute 9/10: 0 req
+[2025-11-19T19:25:16+00:00] Minute 10/10: 0 req
+
+
+Run complete. Detailed metrics saved to traffic_results/func_110_reactive_20251119_192452.csv
+Mean success: 0.0%
+Avg p95 latency: 111.2 ms
+Cold starts detected: 0

@@ -1,6 +1,8 @@
 #!/bin/bash
 # Reactive autoscaling YAML generator for AKS + Knative
-# Configured for aggressive scale-up/scale-down to trigger multiple cold starts
+
+ACR="${ACR_LOGIN_SERVER:-knativeacr25446.azurecr.io}"
+
 
 FUNCTIONS=("func_235" "func_126" "func_110")
 MODELS=("reactive")
@@ -39,7 +41,7 @@ spec:
 
     spec:
       containers:
-      - image: ${ACR_LOGIN_SERVER}/forecasting-api:v5
+      - image: ${ACR}/forecasting-api:v44
         imagePullPolicy: IfNotPresent
         name: forecasting
         env:

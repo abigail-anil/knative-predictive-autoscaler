@@ -1,0 +1,27 @@
+TRAFFIC RUN: func_235-reactive
+Target URL: http://func-235-reactive.default.172.199.57.57.sslip.io
+[2025-11-19T19:29:53+00:00] Minute 1/10: 69 req
+→ 50/50 ok | pods=0 | avg=203.8ms | p95=301.5ms 
+[2025-11-19T19:30:35+00:00] Minute 2/10: 94 req
+→ 50/50 ok | pods=3 | avg=197.3ms | p95=681.8ms cold
+[2025-11-19T19:30:47+00:00] Minute 3/10: 0 req
+[2025-11-19T19:30:48+00:00] Minute 4/10: 64 req
+→ 50/50 ok | pods=4 | avg=106.3ms | p95=97.1ms cold
+[2025-11-19T19:30:55+00:00] Minute 5/10: 93 req
+→ 50/50 ok | pods=3 | avg=107.3ms | p95=97.9ms 
+[2025-11-19T19:31:02+00:00] Minute 6/10: 66 req
+→ 50/50 ok | pods=3 | avg=106.4ms | p95=100.1ms 
+[2025-11-19T19:31:08+00:00] Minute 7/10: 2 req
+→ 2/2 ok | pods=3 | avg=87.5ms | p95=88.8ms 
+[2025-11-19T19:31:10+00:00] Minute 8/10: 22 req
+→ 22/22 ok | pods=2 | avg=87.8ms | p95=102.6ms 
+[2025-11-19T19:31:14+00:00] Minute 9/10: 53 req
+→ 50/50 ok | pods=3 | avg=158.9ms | p95=183.8ms cold
+[2025-11-19T19:31:23+00:00] Minute 10/10: 13 req
+→ 13/13 ok | pods=3 | avg=82.0ms | p95=87.3ms 
+
+
+Run complete. Detailed metrics saved to traffic_results/func_235_reactive_20251119_192953.csv
+Mean success: 100.0%
+Avg p95 latency: 193.4 ms
+Cold starts detected: 3

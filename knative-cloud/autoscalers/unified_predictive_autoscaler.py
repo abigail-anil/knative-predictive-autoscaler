@@ -82,7 +82,7 @@ class AKSAutoscaler:
     def test_service_connection(self):
         try:
             logger.info("Testing service connectivity...")
-            r = requests.get(f"{self.service_url}/health", timeout=30)
+            r = requests.get(f"{self.service_url}/health", timeout=120)
             logger.info(f"Service reachable: {r.json()}")
         except Exception as e:
             logger.error(f" Service NOT reachable: {e}")
@@ -197,7 +197,7 @@ class AKSAutoscaler:
         now = time.time()
         if now - self.last_scale_time < self.cooldown_period:
             remaining = self.cooldown_period - (now - self.last_scale_time)
-            logger.info(f"⏳ Cooldown active ({remaining:.0f}s remaining)")
+            logger.info(f"Cooldown active ({remaining:.0f}s remaining)")
             return False
         
         patch_body = {

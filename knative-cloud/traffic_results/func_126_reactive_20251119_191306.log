@@ -1,0 +1,27 @@
+TRAFFIC RUN: func_126-reactive
+Target URL: http://func-126-reactive.default.172.199.57.57.sslip.io
+[2025-11-19T19:13:06+00:00] Minute 1/10: 2 req
+→ 0/2 ok | pods=2 | avg=1809.4ms | p95=3338.2ms cold
+[2025-11-19T19:13:11+00:00] Minute 2/10: 2 req
+→ 0/2 ok | pods=2 | avg=95.3ms | p95=103.0ms 
+[2025-11-19T19:13:12+00:00] Minute 3/10: 3 req
+→ 0/3 ok | pods=2 | avg=81.3ms | p95=84.0ms 
+[2025-11-19T19:13:14+00:00] Minute 4/10: 0 req
+[2025-11-19T19:13:15+00:00] Minute 5/10: 2 req
+→ 0/2 ok | pods=2 | avg=83.2ms | p95=83.5ms 
+[2025-11-19T19:13:16+00:00] Minute 6/10: 4 req
+→ 0/4 ok | pods=2 | avg=81.0ms | p95=86.9ms 
+[2025-11-19T19:13:18+00:00] Minute 7/10: 9 req
+→ 0/9 ok | pods=2 | avg=83.8ms | p95=87.0ms 
+[2025-11-19T19:13:19+00:00] Minute 8/10: 8 req
+→ 0/8 ok | pods=2 | avg=86.6ms | p95=92.9ms 
+[2025-11-19T19:13:22+00:00] Minute 9/10: 6 req
+→ 0/6 ok | pods=2 | avg=96.4ms | p95=112.7ms 
+[2025-11-19T19:13:23+00:00] Minute 10/10: 2 req
+→ 0/2 ok | pods=2 | avg=101.3ms | p95=101.6ms 
+
+
+Run complete. Detailed metrics saved to traffic_results/func_126_reactive_20251119_191306.csv
+Mean success: 0.0%
+Avg p95 latency: 454.4 ms
+Cold starts detected: 1

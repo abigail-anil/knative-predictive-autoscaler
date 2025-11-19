@@ -1,0 +1,20 @@
+TRAFFIC RUN: func_110-hybrid
+Target URL: http://func-110-hybrid.default.172.199.57.57.sslip.io
+[2025-11-19T18:55:58+00:00] Minute 1/10: 195 req
+→ 50/50 ok | pods=3 | avg=527.3ms | p95=662.1ms cold
+[2025-11-19T18:56:26+00:00] Minute 2/10: 587 req
+→ 50/50 ok | pods=3 | avg=557.4ms | p95=664.2ms 
+[2025-11-19T18:56:56+00:00] Minute 3/10: 0 req
+[2025-11-19T18:56:57+00:00] Minute 4/10: 0 req
+[2025-11-19T18:56:58+00:00] Minute 5/10: 0 req
+[2025-11-19T18:56:59+00:00] Minute 6/10: 0 req
+[2025-11-19T18:57:00+00:00] Minute 7/10: 0 req
+[2025-11-19T18:57:01+00:00] Minute 8/10: 0 req
+[2025-11-19T18:57:02+00:00] Minute 9/10: 0 req
+[2025-11-19T18:57:03+00:00] Minute 10/10: 0 req
+
+
+Run complete. Detailed metrics saved to traffic_results/func_110_hybrid_20251119_185558.csv
+Mean success: 100.0%
+Avg p95 latency: 663.2 ms
+Cold starts detected: 1
