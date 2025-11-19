@@ -82,7 +82,7 @@ class AKSAutoscaler:
     def test_service_connection(self):
         try:
             logger.info("Testing service connectivity...")
-            r = requests.get(f"{self.service_url}/health", timeout=10)
+            r = requests.get(f"{self.service_url}/health", timeout=30)
             logger.info(f"Service reachable: {r.json()}")
         except Exception as e:
             logger.error(f" Service NOT reachable: {e}")
@@ -125,7 +125,7 @@ class AKSAutoscaler:
             r = requests.post(
                 f"{self.service_url}/predict",
                 json={"periods": self.prediction_horizon, "recent_data": recent_data},
-                timeout=10
+                timeout=30
             )
             
             if r.status_code != 200:

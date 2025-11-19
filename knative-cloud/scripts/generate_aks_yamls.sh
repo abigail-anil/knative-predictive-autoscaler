@@ -17,12 +17,12 @@ for func in "${FUNCTIONS[@]}"; do
     TARGET="5"
 
     if [[ "$model" == "prophet" ]]; then
-        REQ_MEM="0.9Gi"
-        LIM_MEM="1.5Gi"
+        REQ_MEM="1Gi"
+        LIM_MEM="2Gi"
 
     elif [[ "$model" == "lstm" ]]; then
-        REQ_MEM="1.0Gi"
-        LIM_MEM="1.8Gi"
+        REQ_MEM="1.5Gi" 
+        LIM_MEM="3Gi"
 
     elif [[ "$model" == "hybrid" ]]; then
         REQ_MEM="1.1Gi"
@@ -52,7 +52,7 @@ spec:
       timeoutSeconds: 60
 
       containers:
-      - image: ${ACR}/forecasting-api:v32
+      - image: ${ACR}/forecasting-api:v36
         imagePullPolicy: Always
         name: forecasting
         env:
@@ -72,10 +72,10 @@ spec:
 
         resources:
           requests:
-            cpu: "100m"
+            cpu: "500m"
             memory: "${REQ_MEM}"
           limits:
-            cpu: "500m"
+            cpu: "1500m"
             memory: "${LIM_MEM}"
 YAML
 

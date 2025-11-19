@@ -347,20 +347,19 @@ def predict_prophet(model, periods):
         # Make prediction with error handling
         logger.info("Calling model.predict()...")
         
-        # Add timeout protection
-        import signal
+        #import signal
         
         def timeout_handler(signum, frame):
             raise TimeoutError("Prophet prediction timed out")
         
-        signal.signal(signal.SIGALRM, timeout_handler)
-        signal.alarm(8)
+        #signal.signal(signal.SIGALRM, timeout_handler)
+        #signal.alarm(8)
         
         try:
             forecast = model.predict(future)
-            signal.alarm(0)
+            #signal.alarm(0)
         except TimeoutError:
-            signal.alarm(0)
+            #signal.alarm(0)
             logger.error("Prophet prediction timed out - using fallback")
             recent_values = model.history["y"].tail(periods).values
             pred = np.repeat(recent_values.mean(), periods)

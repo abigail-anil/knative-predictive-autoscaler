@@ -29,4 +29,4 @@ RUN ls -lh /app/models/* || true
 
 EXPOSE 8080
 
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "1"]
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8080", "--timeout-keep-alive", "75", "--workers", "1"]
