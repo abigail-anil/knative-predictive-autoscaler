@@ -1,0 +1,258 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    autoscaling.knative.dev/max-scale: "3"
+    autoscaling.knative.dev/metric: concurrency
+    autoscaling.knative.dev/min-scale: "1"
+    autoscaling.knative.dev/scale-down-delay: 30s
+    autoscaling.knative.dev/stable-window: 30s
+    autoscaling.knative.dev/target: "5"
+    autoscaling.knative.dev/window: 10s
+    deployment.kubernetes.io/revision: "1"
+    serving.knative.dev/creator: masterclient
+    serving.knative.dev/response-start-timeout: "300"
+  creationTimestamp: "2025-11-22T13:55:19Z"
+  generation: 1
+  labels:
+    app: func-235-prophet-00001
+    serving.knative.dev/configuration: func-235-prophet
+    serving.knative.dev/configurationGeneration: "1"
+    serving.knative.dev/configurationUID: 015fb66f-f202-488b-a22b-8cf2fe43f382
+    serving.knative.dev/revision: func-235-prophet-00001
+    serving.knative.dev/revisionUID: 2d2b95ba-6618-4583-b1d5-ae938a1c7650
+    serving.knative.dev/service: func-235-prophet
+    serving.knative.dev/serviceUID: 6b7f2327-f17a-479c-91bf-d15a5f2829b3
+  name: func-235-prophet-00001-deployment
+  namespace: default
+  ownerReferences:
+  - apiVersion: serving.knative.dev/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Revision
+    name: func-235-prophet-00001
+    uid: 2d2b95ba-6618-4583-b1d5-ae938a1c7650
+  resourceVersion: "1460407"
+  uid: a36d8738-4df3-4937-9cc2-4ccac1e373d7
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      serving.knative.dev/revisionUID: 2d2b95ba-6618-4583-b1d5-ae938a1c7650
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/max-scale: "3"
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/min-scale: "1"
+        autoscaling.knative.dev/scale-down-delay: 30s
+        autoscaling.knative.dev/stable-window: 30s
+        autoscaling.knative.dev/target: "5"
+        autoscaling.knative.dev/window: 10s
+        serving.knative.dev/creator: masterclient
+        serving.knative.dev/response-start-timeout: "300"
+      creationTimestamp: null
+      labels:
+        app: func-235-prophet-00001
+        serving.knative.dev/configuration: func-235-prophet
+        serving.knative.dev/configurationGeneration: "1"
+        serving.knative.dev/configurationUID: 015fb66f-f202-488b-a22b-8cf2fe43f382
+        serving.knative.dev/revision: func-235-prophet-00001
+        serving.knative.dev/revisionUID: 2d2b95ba-6618-4583-b1d5-ae938a1c7650
+        serving.knative.dev/service: func-235-prophet
+        serving.knative.dev/serviceUID: 6b7f2327-f17a-479c-91bf-d15a5f2829b3
+    spec:
+      containers:
+      - env:
+        - name: MODEL_TYPE
+          value: prophet
+        - name: FUNCTION_ID
+          value: func_235
+        - name: PORT
+          value: "8080"
+        - name: K_REVISION
+          value: func-235-prophet-00001
+        - name: K_CONFIGURATION
+          value: func-235-prophet
+        - name: K_SERVICE
+          value: func-235-prophet
+        image: knativeacr25446.azurecr.io/forecasting-api@sha256:3aadb4163a3cb55a52b814a526f23b63f66a94c6260228579f7305c1e198e8ce
+        imagePullPolicy: Always
+        lifecycle:
+          preStop:
+            httpGet:
+              path: /wait-for-drain
+              port: 8022
+              scheme: HTTP
+        name: forecasting
+        ports:
+        - containerPort: 8080
+          name: user-port
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 1500m
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: FallbackToLogsOnError
+      - env:
+        - name: SERVING_NAMESPACE
+          value: default
+        - name: SERVING_SERVICE
+          value: func-235-prophet
+        - name: SERVING_CONFIGURATION
+          value: func-235-prophet
+        - name: SERVING_REVISION
+          value: func-235-prophet-00001
+        - name: QUEUE_SERVING_PORT
+          value: "8012"
+        - name: QUEUE_SERVING_TLS_PORT
+          value: "8112"
+        - name: CONTAINER_CONCURRENCY
+          value: "1"
+        - name: REVISION_TIMEOUT_SECONDS
+          value: "60"
+        - name: REVISION_RESPONSE_START_TIMEOUT_SECONDS
+          value: "0"
+        - name: REVISION_IDLE_TIMEOUT_SECONDS
+          value: "0"
+        - name: SERVING_POD
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: SERVING_POD_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: SERVING_LOGGING_CONFIG
+        - name: SERVING_LOGGING_LEVEL
+        - name: SERVING_REQUEST_LOG_TEMPLATE
+          value: '{"httpRequest": {"requestMethod": "{{.Request.Method}}", "requestUrl":
+            "{{js .Request.RequestURI}}", "requestSize": "{{.Request.ContentLength}}",
+            "status": {{.Response.Code}}, "responseSize": "{{.Response.Size}}", "userAgent":
+            "{{js .Request.UserAgent}}", "remoteIp": "{{js .Request.RemoteAddr}}",
+            "serverIp": "{{.Revision.PodIP}}", "referer": "{{js .Request.Referer}}",
+            "latency": "{{.Response.Latency}}s", "protocol": "{{.Request.Proto}}"},
+            "traceId": "{{index .Request.Header "X-B3-Traceid"}}"}'
+        - name: SERVING_ENABLE_REQUEST_LOG
+          value: "false"
+        - name: SERVING_REQUEST_METRICS_BACKEND
+          value: prometheus
+        - name: SERVING_REQUEST_METRICS_REPORTING_PERIOD_SECONDS
+          value: "5"
+        - name: TRACING_CONFIG_BACKEND
+          value: none
+        - name: TRACING_CONFIG_ZIPKIN_ENDPOINT
+        - name: TRACING_CONFIG_DEBUG
+          value: "false"
+        - name: TRACING_CONFIG_SAMPLE_RATE
+          value: "0.1"
+        - name: USER_PORT
+          value: "8080"
+        - name: SYSTEM_NAMESPACE
+          value: knative-serving
+        - name: METRICS_DOMAIN
+          value: knative.dev/internal/serving
+        - name: SERVING_READINESS_PROBE
+          value: '{"httpGet":{"path":"/health","port":8080,"host":"127.0.0.1","scheme":"HTTP"},"initialDelaySeconds":3,"timeoutSeconds":1,"periodSeconds":5,"successThreshold":1,"failureThreshold":3}'
+        - name: ENABLE_PROFILING
+          value: "false"
+        - name: SERVING_ENABLE_PROBE_REQUEST_LOG
+          value: "false"
+        - name: METRICS_COLLECTOR_ADDRESS
+        - name: HOST_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
+        - name: ENABLE_HTTP2_AUTO_DETECTION
+          value: "false"
+        - name: ENABLE_HTTP_FULL_DUPLEX
+          value: "false"
+        - name: ROOT_CA
+        - name: ENABLE_MULTI_CONTAINER_PROBES
+          value: "false"
+        image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:a2d67c5fba7f9f1c84329833be1a7b7d824b3d6f954c9efcb0ddb061cd00521c
+        imagePullPolicy: IfNotPresent
+        name: queue-proxy
+        ports:
+        - containerPort: 8022
+          name: http-queueadm
+          protocol: TCP
+        - containerPort: 9090
+          name: http-autometric
+          protocol: TCP
+        - containerPort: 9091
+          name: http-usermetric
+          protocol: TCP
+        - containerPort: 8012
+          name: queue-port
+          protocol: TCP
+        - containerPort: 8112
+          name: https-port
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            httpHeaders:
+            - name: K-Network-Probe
+              value: queue
+            path: /
+            port: 8012
+            scheme: HTTP
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 25m
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 60
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2025-11-22T13:55:23Z"
+    lastUpdateTime: "2025-11-22T13:55:23Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2025-11-22T13:55:19Z"
+    lastUpdateTime: "2025-11-22T13:55:23Z"
+    message: ReplicaSet "func-235-prophet-00001-deployment-754488fc6" has successfully
+      progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1

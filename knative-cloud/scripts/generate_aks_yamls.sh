@@ -2,7 +2,7 @@
 
 ACR="${ACR_LOGIN_SERVER:-knativeacr25446.azurecr.io}"
 
-FUNCTIONS=("func_126")
+FUNCTIONS=("func_235")
 MODELS=("prophet" "lstm" "hybrid")
 
 mkdir -p knative
@@ -17,16 +17,19 @@ for func in "${FUNCTIONS[@]}"; do
     TARGET="5"
 
     if [[ "$model" == "prophet" ]]; then
+        MAX_SCALE="3"
         REQ_MEM="1Gi"
         LIM_MEM="2Gi"
         TIMEOUT="300"
         
     elif [[ "$model" == "lstm" ]]; then
+        MAX_SCALE="2"
         REQ_MEM="1.5Gi" 
         LIM_MEM="3Gi"
         TIMEOUT="60"
 
     elif [[ "$model" == "hybrid" ]]; then
+        MAX_SCALE="3"
         REQ_MEM="1.1Gi"
         LIM_MEM="1.8Gi"
         TIMEOUT="300"

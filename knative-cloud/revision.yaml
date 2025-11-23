@@ -1,0 +1,88 @@
+apiVersion: serving.knative.dev/v1
+kind: Revision
+metadata:
+  annotations:
+    autoscaling.knative.dev/max-scale: "3"
+    autoscaling.knative.dev/metric: concurrency
+    autoscaling.knative.dev/min-scale: "1"
+    autoscaling.knative.dev/scale-down-delay: 30s
+    autoscaling.knative.dev/stable-window: 30s
+    autoscaling.knative.dev/target: "5"
+    autoscaling.knative.dev/window: 10s
+    serving.knative.dev/creator: masterclient
+    serving.knative.dev/response-start-timeout: "300"
+    serving.knative.dev/routes: func-235-prophet
+    serving.knative.dev/routingStateModified: "2025-11-22T13:55:18Z"
+  creationTimestamp: "2025-11-22T13:55:18Z"
+  generation: 1
+  labels:
+    serving.knative.dev/configuration: func-235-prophet
+    serving.knative.dev/configurationGeneration: "1"
+    serving.knative.dev/configurationUID: 015fb66f-f202-488b-a22b-8cf2fe43f382
+    serving.knative.dev/routingState: active
+    serving.knative.dev/service: func-235-prophet
+    serving.knative.dev/serviceUID: 6b7f2327-f17a-479c-91bf-d15a5f2829b3
+  name: func-235-prophet-00001
+  namespace: default
+  ownerReferences:
+  - apiVersion: serving.knative.dev/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Configuration
+    name: func-235-prophet
+    uid: 015fb66f-f202-488b-a22b-8cf2fe43f382
+  resourceVersion: "1460412"
+  uid: 2d2b95ba-6618-4583-b1d5-ae938a1c7650
+spec:
+  containerConcurrency: 1
+  containers:
+  - env:
+    - name: MODEL_TYPE
+      value: prophet
+    - name: FUNCTION_ID
+      value: func_235
+    image: knativeacr25446.azurecr.io/forecasting-api:v44
+    imagePullPolicy: Always
+    name: forecasting
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /health
+        port: 8080
+      initialDelaySeconds: 3
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources:
+      limits:
+        cpu: 1500m
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
+  enableServiceLinks: false
+  timeoutSeconds: 60
+status:
+  actualReplicas: 1
+  conditions:
+  - lastTransitionTime: "2025-11-22T13:55:23Z"
+    severity: Info
+    status: "True"
+    type: Active
+  - lastTransitionTime: "2025-11-22T13:55:23Z"
+    status: "True"
+    type: ContainerHealthy
+  - lastTransitionTime: "2025-11-22T13:55:23Z"
+    status: "True"
+    type: Ready
+  - lastTransitionTime: "2025-11-22T13:55:19Z"
+    status: "True"
+    type: ResourcesAvailable
+  containerStatuses:
+  - imageDigest: knativeacr25446.azurecr.io/forecasting-api@sha256:3aadb4163a3cb55a52b814a526f23b63f66a94c6260228579f7305c1e198e8ce
+    name: forecasting
+  desiredReplicas: 1
+  observedGeneration: 1
