@@ -2,7 +2,7 @@
 
 ACR="${ACR_LOGIN_SERVER:-knativeacr25446.azurecr.io}"
 
-FUNCTIONS=("func_235")
+FUNCTIONS=("func_110")
 MODELS=("prophet" "lstm" "hybrid")
 
 mkdir -p knative

@@ -8,7 +8,7 @@ spec:
     metadata:
       annotations:
         autoscaling.knative.dev/min-scale: "1"
-        autoscaling.knative.dev/max-scale: "3"
+        autoscaling.knative.dev/max-scale: "2"
         autoscaling.knative.dev/target: "5"
         autoscaling.knative.dev/metric: "concurrency"
         autoscaling.knative.dev/window: "10s"
