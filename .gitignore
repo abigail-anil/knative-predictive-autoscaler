@@ -3,4 +3,3 @@ venv/
 data/*
 models/*
 kubectl
-traffic_results/*
